@@ -2,6 +2,7 @@ import pygame, time
 from pygame.locals import *
 from random import shuffle
 from constants import *
+from player import *
 
 class Tile(pygame.Rect):
     def __init__(self, x, y, size, is_safe):
@@ -68,3 +69,25 @@ class Board:
 
     def get_borders(self):
         return self.borders
+
+    def is_valid_move(self, piece, players, value):
+        """Returns True if the piece can move by the current dice value, 
+        and False otherwise"""
+        # If the piece is already finished or would exceed the maximum position
+        if not piece.is_valid_move(value):
+            print("Move not valid: out-of-bound")
+            return False
+        target_pos = piece.get_pos() + value
+        current_player = piece.get_player()
+        # If the target tile is already occupied by another piece of the same player
+        for other_piece in players[current_player].get_pieces():
+            if other_piece.get_pos() == target_pos:
+                print("Move not valid: tile occupied by allied piece")
+                return False
+        # If the target tile is safe and occupied by another piece of the other player
+        for other_piece in players[1 - current_player].get_pieces():
+            if other_piece.get_pos() == target_pos and other_piece.is_safe():
+                print("Move not valid: safe tile occupied by adversary")
+                return False
+        # If the move is valid
+        return True
