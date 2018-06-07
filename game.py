@@ -62,11 +62,21 @@ class App:
                             print("Piece moved, new pos: %d" % piece.get_pos())
                             # Check if we kicked back an other piece
                             for other_piece in self.players[1-self.current_player].get_pieces():
-                                if other_piece.get_pos() == piece.get_pos():
+                                if other_piece.get_pos() == piece.get_pos() and not other_piece.is_private():
                                     other_piece.reset_pos()
                                     print("Piece kicked back")
+                            # Check if we change player
+                            if not piece.is_double():
+                                print("Changing player")
+                                self.current_player = 1 - self.current_player
+                            else:
+                                print("Throw again")
                             self.current_step = 0
+                        # Check if we rolled a zero and need to end the turn here
+                        elif self.dices.get_score() == 0:
                             self.current_player = 1 - self.current_player
+                            self.current_step = 0
+
         # Reset the color of all clicked tiles when the mouse is released
         if event.type == pygame.MOUSEBUTTONUP:
             for tile in self.clicked_tiles:

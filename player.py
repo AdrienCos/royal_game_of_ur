@@ -4,24 +4,54 @@ from random import shuffle
 from constants import *
 
 # Dict mapping the board position ot the board coordinates for Player 0 
-# pos_to_coords_P0 = {
-#     0: 
-# }
+pos_to_coords = {0:{
+    0:  (XOFFSET + 3*TILESIZE + 3*TILESPACING + 0.5*PIECESIZE, YOFFSET + 0.5*PIECESIZE),
+    1:  (XOFFSET + 2*TILESIZE + 2*TILESPACING + 0.5*PIECESIZE, YOFFSET + 0.5*PIECESIZE),
+    2:  (XOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE, YOFFSET + 0.5*PIECESIZE),
+    3:  (XOFFSET + 0*TILESIZE + 0*TILESPACING + 0.5*PIECESIZE, YOFFSET + 0.5*PIECESIZE),
+    4:  (XOFFSET + 0*TILESIZE + 0*TILESPACING + 0.5*PIECESIZE, YOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE),
+    5:  (XOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE, YOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE),
+    6:  (XOFFSET + 2*TILESIZE + 2*TILESPACING + 0.5*PIECESIZE, YOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE),
+    7:  (XOFFSET + 3*TILESIZE + 3*TILESPACING + 0.5*PIECESIZE, YOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE),
+    8:  (XOFFSET + 4*TILESIZE + 4*TILESPACING + 0.5*PIECESIZE, YOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE),
+    9:  (XOFFSET + 5*TILESIZE + 5*TILESPACING + 0.5*PIECESIZE, YOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE),
+    10: (XOFFSET + 6*TILESIZE + 6*TILESPACING + 0.5*PIECESIZE, YOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE),
+    11: (XOFFSET + 7*TILESIZE + 7*TILESPACING + 0.5*PIECESIZE, YOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE),
+    12: (XOFFSET + 7*TILESIZE + 7*TILESPACING + 0.5*PIECESIZE, YOFFSET + 0.5*PIECESIZE),
+    13: (XOFFSET + 6*TILESIZE + 6*TILESPACING + 0.5*PIECESIZE, YOFFSET + 0.5*PIECESIZE)
+}, 
+1:{
+    0:  (XOFFSET + 3*TILESIZE + 3*TILESPACING + 0.5*PIECESIZE, YOFFSET + 2*TILESIZE + 2*TILESPACING + 0.5*PIECESIZE),
+    1:  (XOFFSET + 2*TILESIZE + 2*TILESPACING + 0.5*PIECESIZE, YOFFSET + 2*TILESIZE + 2*TILESPACING + 0.5*PIECESIZE),
+    2:  (XOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE, YOFFSET + 2*TILESIZE + 2*TILESPACING + 0.5*PIECESIZE),
+    3:  (XOFFSET + 0*TILESIZE + 0*TILESPACING + 0.5*PIECESIZE, YOFFSET + 2*TILESIZE + 2*TILESPACING + 0.5*PIECESIZE),
+    4:  (XOFFSET + 0*TILESIZE + 0*TILESPACING + 0.5*PIECESIZE, YOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE),
+    5:  (XOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE, YOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE),
+    6:  (XOFFSET + 2*TILESIZE + 2*TILESPACING + 0.5*PIECESIZE, YOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE),
+    7:  (XOFFSET + 3*TILESIZE + 3*TILESPACING + 0.5*PIECESIZE, YOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE),
+    8:  (XOFFSET + 4*TILESIZE + 4*TILESPACING + 0.5*PIECESIZE, YOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE),
+    9:  (XOFFSET + 5*TILESIZE + 5*TILESPACING + 0.5*PIECESIZE, YOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE),
+    10: (XOFFSET + 6*TILESIZE + 6*TILESPACING + 0.5*PIECESIZE, YOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE),
+    11: (XOFFSET + 7*TILESIZE + 7*TILESPACING + 0.5*PIECESIZE, YOFFSET + 1*TILESIZE + 1*TILESPACING + 0.5*PIECESIZE),
+    12: (XOFFSET + 7*TILESIZE + 7*TILESPACING + 0.5*PIECESIZE, YOFFSET + 2*TILESIZE + 2*TILESPACING + 0.5*PIECESIZE),
+    13: (XOFFSET + 6*TILESIZE + 6*TILESPACING + 0.5*PIECESIZE, YOFFSET + 2*TILESIZE + 2*TILESPACING + 0.5*PIECESIZE)
+}}
 
 class Piece(pygame.Rect):
     def __init__(self, x, y, size, player):
         pygame.Rect.__init__(self, x, y, size, size)
         self.start_x = x
         self.start_y = y
-        self.cx = round(x + size / 2)
-        self.cy = round(y + size / 2)
-        self.radius = int(size / 2)
+        self.radius = round(size / 2)
+        self.cx = round(x + self.radius)
+        self.cy = round(y + self.radius)
         if player == 0:
             self.color = P0COLOR
         else:
             self.color = P1COLOR
         self.pos = -1
         self.player = player
+        print(self.left)
     
     def get_player(self):
         return self.player
@@ -59,11 +89,21 @@ class Piece(pygame.Rect):
 
     def add_pos(self, value):
         self.pos += value
+        if self.pos < 14:
+            self.x, self.y = pos_to_coords[self.player][self.pos]
+            self.cx = round(self.x + self.radius)
+            self.cy = round(self.y + self.radius)
+        else:
+            self.x = self.start_x + 4 * (TILESIZE + TILESPACING)
+            self.y = self.start_y
+            self.cx = round(self.x + self.radius)
+            self.cy = round(self.y + self.radius)
 
     def reset_pos(self):
         self.pos = -1
-        # pygame.Rect.left = self.start_x
-        # pygame.Rect.top = self.start_y
+        self.x, self.y = self.start_x, self.start_y
+        self.cx = round(self.x + self.radius)
+        self.cy = round(self.y + self.radius)
 
 class Player:
     def __init__(self, player):

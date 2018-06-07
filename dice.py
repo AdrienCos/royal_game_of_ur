@@ -41,9 +41,9 @@ class Dice(pygame.Rect):
 class DiceSet:
     def __init__(self):
         self.dices = []
-        x_pos = XOFFSET + (8 * TILESIZE + 9 * TILESPACING) + 0.5 * DICESIZE
+        x_pos = XOFFSET + (8 * TILESIZE + 9 * TILESPACING) + 0.3 * DICESIZE
         for i in range(4):
-            y_pos = YOFFSET + i * DICESIZE +  (2 * TILESPACING + TILESIZE) * i / 3
+            y_pos = YOFFSET + i * DICESIZE +  (2 * TILESPACING + 3 * TILESIZE - 4 * DICESIZE) * i / 3
             new_dice = Dice(x_pos, y_pos, DICESIZE)
             self.dices.append(new_dice)
     

@@ -27,5 +27,5 @@ YOFFSET = (WINHEIGHT - (3 * TILESIZE + 2 * TILESPACING)) / 2
 PIECESIZE = 0.5 * TILESIZE
 
 # Compute the size of a dice and a dice dot
-DICESIZE = 0.5 * TILESIZE
+DICESIZE = 0.7 * TILESIZE
 DOTSIZE = round(0.1 * DICESIZE)
