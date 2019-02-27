@@ -2,11 +2,16 @@
 
 from engine import *
 
-player = Player(1)
-player.getPiecesPos()
-player.movePiece(0, 3)
-print(player.getPiecesPos())
 
-dices = DiceSet()
-dices.throw()
-print(dices.getScore())
+engine = Engine()
+
+engine.throw_dices()
+score = engine.get_dices_score()
+
+piece = engine.players[0].pieces[0]
+valid_tiles = engine.get_valid_tiles(piece)
+
+print(score, valid_tiles)
+for tile_id in valid_tiles:
+    print(engine.board.get_tile_from_id(tile_id))
+
