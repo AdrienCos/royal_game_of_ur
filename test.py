@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from engine import *
+from engine import Engine
 
 
 engine = Engine()
@@ -14,4 +14,3 @@ valid_tiles = engine.get_valid_tiles(piece)
 print(score, valid_tiles)
 for tile_id in valid_tiles:
     print(engine.board.get_tile_from_id(tile_id))
-

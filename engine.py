@@ -1,40 +1,9 @@
-from constants import *
 from random import shuffle
+import abc
 
-# Symbolic constants
-EMPTY = 0
-
-
-class Dice:
-    def __init__(self):
-        # Create the array of the values of the dice
-        self.values = [0, 0, 1, 1]
-
-    def throw(self):
-        # Shuffle the values
-        shuffle(self.values)
-
-    def get_value(self):
-        # Return the first ("top") value of the dice
-        return self.values[0]
-
-
-class DiceSet:
-    def __init__(self, dice_nb):
-        # Generate the dices
-        self.dices = [Dice() for i in range(dice_nb)]
-
-    def throw(self):
-        # Throw every dice
-        for dice in self.dices:
-            dice.throw()
-
-    def get_score(self):
-        # Add the value of each dice and return it
-        score = 0
-        for dice in self.dices:
-            score += dice.get_value()
-        return score
+# Iport objects
+from dice_ur import DiceUr
+from dice_set_ur import DiceSetUr
 
 
 class Piece:
@@ -148,7 +117,7 @@ class Board:
         for tile in self.tiles:
             if tile.get_tile_id() == tile_id:
                 tile.set_occupant(occupant)
-    
+
     def get_pos_from_id(self, tile_id):
         # Return the postion of the tile linked to the given id
         for tile in self.tiles:
@@ -166,7 +135,7 @@ class Engine:
     def __init__(self):
         # Generate the elements of the game
         self.players = (Player(0), Player(1))
-        self.dices = DiceSet(4)
+        self.dices = DiceSetUr()
         self.board = Board()
         self.state = "Throw"
         self.activePlayer = 0
@@ -174,7 +143,7 @@ class Engine:
     def throw_dices(self):
         # Throws the dices if the state is currently in "Throw"
         if self.state == "Throw":
-            self.dices.throw()
+            self.dices.roll()
             self.state = "Move"
 
     def get_dices_score(self):
@@ -198,7 +167,7 @@ class Engine:
             if tile.get_player_id() == None or tile.get_player_id() == self.activePlayer:
                 return True
         return False
-    
+
     def is_vulnerable(self, tile):
         # Return True if the tile can be taken by the current player, regardless of piece
         is_empty = tile.is_empty()

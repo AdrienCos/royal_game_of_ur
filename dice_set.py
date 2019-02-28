@@ -1,7 +1,7 @@
 import abc
 
 
-class Dice(abc.ABC):
+class DiceSet(abc.ABC):
     @abc.abstractmethod
     def __init__(self):
         pass
@@ -16,4 +16,8 @@ class Dice(abc.ABC):
 
     @abc.abstractmethod
     def get_values(self):
+        pass
+
+    @abc.abstractmethod
+    def get_dices(self):
         pass
