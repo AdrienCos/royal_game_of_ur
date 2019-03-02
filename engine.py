@@ -4,86 +4,51 @@ import abc
 # Iport objects
 from dice_ur import DiceUr
 from dice_set_ur import DiceSetUr
+from token_ur import TokenUr
+from agent_ur import AgentUr
+from token_ur import TokenUr
 
 
-class Piece:
-    def __init__(self, piece_id):
-        # create the piece
-        self.id = piece_id
-        self.pos = 0
+# class Tile:
+#     def __init__(self, pos, player_id, safe, tile_id):
+#         # Generate the tile
+#         self.safe = safe
+#         self.player_id = player_id
+#         self.pos = pos
+#         self.occupant = None
+#         self.id = tile_id
 
-    def get_pos(self):
-        # Return the current position of the piece
-        return self.pos
+#     def get_player_id(self):
+#         # Return the player ID (None if the tile is not player-specific)
+#         return self.player_id
 
-    def set_pos(self, new_pos):
-        # Set the new posistion of the piece
-        self.pos = new_pos
+#     def get_tile_id(self):
+#         # Return the ID of the tile
+#         return self.id
 
-    def get_piece_id(self):
-        # Return the ID of the piece
-        return self.id
+#     def get_pos(self):
+#         # Return the position of the tile (from 0 to 13)
+#         return self.pos
 
+#     def set_occupant(self, occupant):
+#         # Set the occupant of the tile (an instance of Piece)
+#         self.occupant = occupant
 
-class Player:
-    def __init__(self, player_id):
-        # Generate the pieces
-        self.id = player_id
-        self.pieces = [Piece(i) for i in range(7)]
+#     def get_occupant(self):
+#         # Return the occupand of the tile (an instance of Piece)
+#         return self.occupant
 
-    def get_pieces_pos(self):
-        # Get the position of every pieces and return it
-        pos = [piece.getPos() for piece in self.pieces]
-        return pos
+#     def is_occupied(self):
+#         # Return True if there is a piece here, False otherwise
+#         return self.occupant is not None
 
-    def move_piece(self, piece_id, pos):
-        # Move the desired piece to the specified position
-        self.pieces[piece_id].setPos(pos)
+#     def is_empty(self):
+#         # Return True if no piece is here
+#         return self.occupant is None
 
-    def get_player_id(self):
-        return self.id
-
-
-class Tile:
-    def __init__(self, pos, player_id, safe, tile_id):
-        # Generate the tile
-        self.safe = safe
-        self.player_id = player_id
-        self.pos = pos
-        self.occupant = None
-        self.id = tile_id
-
-    def get_player_id(self):
-        # Return the player ID (None if the tile is not player-specific)
-        return self.player_id
-
-    def get_tile_id(self):
-        # Return the ID of the tile
-        return self.id
-
-    def get_pos(self):
-        # Return the position of the tile (from 0 to 13)
-        return self.pos
-
-    def set_occupant(self, occupant):
-        # Set the occupant of the tile (an instance of Piece)
-        self.occupant = occupant
-
-    def get_occupant(self):
-        # Return the occupand of the tile (an instance of Piece)
-        return self.occupant
-
-    def is_occupied(self):
-        # Return True if there is a piece here, False otherwise
-        return self.occupant is not None
-
-    def is_empty(self):
-        # Return True if no piece is here
-        return self.occupant is None
-
-    def is_safe(self):
-        # Return True if the tile is a safe one
-        return self.is_safe
+#     def is_safe(self):
+#         # Return True if the tile is a safe one
+#         return self.is_safe
 
 
 class Board:
@@ -94,17 +59,17 @@ class Board:
 
     def create_tiles(self):
         for i in range(1, 5):
-            new_tile = Tile(i, 0, False, i)
+            new_tile = TileUr(i, i, 0, False)
             self.tiles.append(new_tile)
-            new_tile = Tile(i, 1, False, i+5)
+            new_tile = TileUr(i+5, i, 1, False)
             self.tiles.append(new_tile)
         for i in range(5, 13):
-            new_tile = Tile(i, None, False, i+5)
+            new_tile = TileUr(i+5, i, None, False)
             self.tiles.append(new_tile)
         for i in range(13, 15):
-            new_tile = Tile(i, 0, False, i+5)
+            new_tile = TileUr(i+5, i, 0, False)
             self.tiles.append(new_tile)
-            new_tile = Tile(i, 1, False, i+9)
+            new_tile = TileUr(i+9, i, 1, False)
             self.tiles.append(new_tile)
         for tile in self.tiles:
             if tile.get_pos() in [4, 8, 14]:
@@ -115,26 +80,26 @@ class Board:
 
     def set_tile_occupant(self, tile_id, occupant):
         for tile in self.tiles:
-            if tile.get_tile_id() == tile_id:
+            if tile.get_id() == tile_id:
                 tile.set_occupant(occupant)
 
     def get_pos_from_id(self, tile_id):
         # Return the postion of the tile linked to the given id
         for tile in self.tiles:
-            if tile.get_tile_id() == tile_id:
+            if tile.get_id() == tile_id:
                 return tile.get_pos()
 
     def get_tile_from_id(self, tile_id):
         # Return the tile linked to the given id
         for tile in self.tiles:
-            if tile.get_tile_id() == tile_id:
+            if tile.get_id() == tile_id:
                 return tile
 
 
 class Engine:
     def __init__(self):
         # Generate the elements of the game
-        self.players = (Player(0), Player(1))
+        self.players = (AgentUr(0), AgentUr(1))
         self.dices = DiceSetUr()
         self.board = Board()
         self.state = "Throw"
@@ -156,7 +121,7 @@ class Engine:
         valid = []
         for tile in tiles:
             if self.is_reachable(tile, piece) and self.is_vulnerable(tile):
-                valid.append(tile.get_tile_id())
+                valid.append(tile.get_id())
         return valid
 
     def is_reachable(self, tile, piece):
@@ -164,15 +129,15 @@ class Engine:
         # and the tile and the piece are compatible player-wise
         distance = piece.get_pos() + self.get_dices_score() - tile.get_pos()
         if distance == 0:
-            if tile.get_player_id() == None or tile.get_player_id() == self.activePlayer:
+            if tile.get_owner() == None or tile.get_owner() == self.activePlayer:
                 return True
         return False
 
     def is_vulnerable(self, tile):
         # Return True if the tile can be taken by the current player, regardless of piece
         is_empty = tile.is_empty()
-        is_safe = tile.is_safe()
-        is_same_team = (tile.get_player_id() == self.activePlayer)
+        is_safe = tile.is_special()
+        is_same_team = (tile.get_owner() == self.activePlayer)
         if is_empty:
             return True
         elif is_safe or is_same_team:
