@@ -3,12 +3,14 @@ from dice_set_ur import DiceSetUr
 from token_ur import TokenUr
 from agent_ur import AgentUr
 from tile_ur import TileUr
+from board_ur import BoardUr
 
 die = DiceUr()
 dice = DiceSetUr()
 token = TokenUr(id=1)
 agent = AgentUr(1)
 tile = TileUr(1, 4, 1, True)
+board = BoardUr()
 
 # Test Dice methods
 die.roll()
@@ -43,3 +45,9 @@ print(tile.get_pos())
 print(tile.is_empty())
 print(tile.is_occupied())
 print(tile.is_special())
+
+# Test Board methods
+print(board.get_state())
+print(board.get_tiles())
+board.set_occupant(0, 1)
+print(board.get_state())
