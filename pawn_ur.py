@@ -1,6 +1,6 @@
-from token import Token
+from pawn import Pawn
 
-class TokenUr(Token):
+class PawnUr(Pawn):
     def __init__(self, id):
         self.pos = 0
         self.id = id

@@ -4,7 +4,7 @@ import abc
 # Iport objects
 from dice_ur import DiceUr
 from dice_set_ur import DiceSetUr
-from token_ur import TokenUr
+from pawn_ur import PawnUr
 from agent_ur import AgentUr
 from token_ur import TokenUr
 from board_ur import BoardUr

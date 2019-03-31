@@ -1,7 +1,7 @@
 import abc
 
 
-class Token(abc.ABC):
+class Pawn(abc.ABC):
     @abc.abstractmethod
     def __init__(self, id=0, pos=0):
         pass
